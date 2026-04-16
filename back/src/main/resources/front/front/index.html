@@ -1,0 +1,330 @@
+<!-- 首页 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>首页</title>
+		<link rel="stylesheet" href="./layui/css/layui.css">
+		<link rel="stylesheet" href="./xznstatic/css/common.css"/>
+		<link rel="stylesheet" href="./xznstatic/css/style.css"/>
+	</head>
+	<style type="text/css">
+		html, body {
+			height: 100%;
+			/* 统一浅色背景，避免底部出现深蓝色空白区 */
+			background: #f5f5f5;
+		}
+		body {
+			margin: 0;
+			font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+		}
+		#iframe {
+			width: 100%;
+			margin-top: 128px;
+			padding-top: 0;
+			/* iframe 空白区背景保持与整体一致 */
+			background: #f5f5f5;
+			transition: all .2s ease;
+			display: block;
+			/* 让 iframe 自己滚动，避免高度计算不准导致无法下滑 */
+			overflow: auto;
+		}
+		#header {
+			height: auto;
+			background: transparent;
+			border-bottom: 0;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: 999;
+		}
+
+		#header .nav-top {
+			display: flex;
+			align-items: center;
+			padding: 0 32px;
+			font-size: 16px;
+			color: #d9e7ff;
+			box-sizing: border-box;
+			height: 72px;
+			background: linear-gradient(120deg, #0b1630 0%, #13284f 50%, #1a3a70 100%);
+			box-shadow: 0 10px 26px rgba(4, 12, 28, 0.6);
+			justify-content: space-between;
+			position: relative;
+		}
+
+		#header .nav-top-img {
+			width: 124px;
+			height: 40px;
+			padding: 0;
+			margin: 0 400px 0 300px;
+			border-radius: 6px;
+			border-width: 0;
+			border-style: solid;
+			border-color: rgba(0,0,0,.3);
+			box-shadow: 0 0 6px rgba(0,0,0,.3);
+		}
+
+		#header .nav-top-title {
+			line-height: 72px;
+			font-size: 28px;
+			font-weight: 700;
+			letter-spacing: 1px;
+			color: #e8f2ff;
+			text-shadow: 0 0 16px rgba(80, 160, 255, 0.35);
+		}
+
+		#header .nav-top-tel {
+			line-height: 36px;
+			font-size: 14px;
+			color: #cce0ff;
+			padding: 0 14px;
+			margin: 0;
+			border-radius: 18px;
+			border: 1px solid rgba(108, 159, 255, 0.5);
+			background: rgba(39, 74, 132, 0.35);
+		}
+		#header .nav-top-actions {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+		#header .manage-entry-btn {
+			line-height: 36px;
+			font-size: 14px;
+			color: #ffffff;
+			padding: 0 16px;
+			margin: 0;
+			border-radius: 18px;
+			border: 1px solid rgba(127, 191, 255, 0.75);
+			background: linear-gradient(120deg, #2c63b9 0%, #3a7ce0 100%);
+			box-shadow: 0 6px 16px rgba(40, 92, 180, 0.45);
+			cursor: pointer;
+			transition: all .2s ease;
+		}
+		#header .manage-entry-btn:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 10px 20px rgba(40, 92, 180, 0.52);
+			filter: brightness(1.04);
+		}
+
+		#header .navs {
+			display: flex;
+			padding: 0 24px;
+			align-items: center;
+			box-sizing: border-box;
+			height: 56px;
+			background: rgba(10, 19, 39, 0.95);
+			border-bottom: 1px solid rgba(84, 126, 207, 0.25);
+			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+			justify-content: center;
+		}
+		#header .navs .title {
+			width: auto;
+			line-height: 40px;
+			font-size: 16px;
+			color: rgba(51, 51, 51, 1);
+			padding: 0 10px;
+			margin: 0 5px;
+			border-radius: ;
+			border-width: 1;
+			border-style: ;
+			border-color: rgba(0, 0, 0, 0.97);
+			box-shadow: ;
+		}
+		#header .navs li {
+			display: inline-block;
+			width: auto;
+			line-height: 38px;
+			padding: 8px 22px;
+			margin: 0 6px;
+			color: #cddfff;
+			font-size: 15px;
+			border-radius: 20px;
+			border: 1px solid rgba(85, 124, 196, 0.3);
+			background: rgba(33, 50, 85, 0.55);
+			box-shadow: none;
+      text-align: center;
+			transition: all .2s ease;
+		}
+		#header .navs li a{
+			color: inherit;
+			text-decoration: none;
+		}
+		#header .navs li.current a{
+			color: inherit;
+		}
+		#header .navs li a:hover{
+			color: inherit;
+		}
+		#header .navs li.current {
+			color: #e9f3ff;
+			font-size: 15px;
+			border-radius: 20px;
+			border: 1px solid #65a4ff;
+			background: linear-gradient(120deg, #2456a8 0%, #3370d6 100%);
+			box-shadow: 0 8px 18px rgba(53, 117, 230, 0.45);
+		}
+		#header .navs li:hover {
+			color: #ffffff;
+			font-size: 15px;
+			border-radius: 20px;
+			border: 1px solid rgba(120, 164, 238, 0.8);
+			background: rgba(51, 81, 136, 0.75);
+			box-shadow: 0 6px 12px rgba(17, 38, 76, 0.6);
+		}
+		@media (max-width: 768px) {
+			#header .nav-top {
+				padding: 0 14px;
+				height: 64px;
+			}
+			#header .nav-top-title {
+				font-size: 22px;
+				line-height: 64px;
+			}
+			#header .nav-top-tel {
+				font-size: 12px;
+				padding: 0 10px;
+			}
+			#header .manage-entry-btn {
+				font-size: 12px;
+				padding: 0 10px;
+				line-height: 32px;
+			}
+			#header .navs {
+				padding: 0 8px;
+				height: 54px;
+				overflow-x: auto;
+				justify-content: flex-start;
+			}
+			#header .navs li {
+				margin: 0 4px;
+				padding: 7px 14px;
+				font-size: 14px;
+				white-space: nowrap;
+			}
+			#iframe {
+				margin-top: 118px;
+			}
+		}
+	</style>
+	<body>
+		<!-- start 顶部导航栏 -->
+		<div id="header">
+			<div v-if='true' class="nav-top">
+			  <img v-if='false' class="nav-top-img" src='https://www.baidu.com/img/flexible/logo/pc/result@2.png'>
+			  <div v-if="true" class="nav-top-title">{{projectName}}</div>
+			  <div class="nav-top-actions">
+			  	<div class="nav-top-tel">欢迎进入实验室管理平台</div>
+			  	<button type="button" class="manage-entry-btn" @click="goToAdminPage">进入管理端</button>
+			  </div>
+			</div>
+		    <div class="navs">
+		    	<!-- <div class="logo" style="font-size: 20px;top: 32px;color: #fff;font-weight: bold;margin-left: -200px;width: 240px;" v-text="projectName"></div> -->
+				<div class="title" v-if="false" v-text="projectName"></div>
+				<div class="list">
+					<ul>
+						<li v-for="(item,index) in indexNav" v-bind:key="index" :class="index === 0 ? 'current' : ''"><a :href="'javascript:navPage(\''+item.url+'\')'" class="menumain" style="cursor: pointer;"><i v-if="false" class="layui-icon" :class="iconArr[index]"></i>{{item.name}}</a></li>
+					</ul>
+				</div>
+		    </div>
+		</div>
+		<!-- end 顶部导航栏 -->
+
+		<iframe src="./pages/home/home.html" id="iframe" frameborder="0" scrolling="auto" width="100%"></iframe>
+
+		<script src="./xznstatic/js/jquery-1.11.3.min.js"></script>
+		<script src="./layui/layui.js"></script>
+		<script src="./js/vue.js"></script>
+		<script src="./js/config.js"></script>
+
+		<script>
+			var vue = new Vue({
+				el: '#header',
+				data: {
+					iconArr: ['layui-icon-gift','layui-icon-email','layui-icon-logout','layui-icon-transfer','layui-icon-slider','layui-icon-print','layui-icon-cols','layui-icon-snowflake','layui-icon-note','layui-icon-flag','layui-icon-theme','layui-icon-website','layui-icon-console','layui-icon-face-surprised','layui-icon-template-1','layui-icon-app','layui-icon-read','layui-icon-component','layui-icon-file-b','layui-icon-unlink','layui-icon-tabs','layui-icon-form','layui-icon-chat'],
+					indexNav: indexNav,
+					cartFlag: cartFlag,
+					adminurl: adminurl,
+					chatFlag: chatFlag,
+					projectName: projectName,
+				},
+				mounted: function() {
+					this.bindClickOnLi();
+				},
+				created() {
+					this.iconArr.sort(()=>{
+					  return (0.5-Math.random())
+					})
+				},
+				methods: {
+					jump(url) {
+						jump(url)
+					},
+					goToAdminPage() {
+						var adminSpaUrl = window.location.protocol + '//' + window.location.hostname + ':8083/#/index';
+						window.location.href = adminSpaUrl;
+					},
+					bindClickOnLi() {
+						let list = document.getElementsByTagName("li");
+						for(var i = 0;i<list.length;i++){
+							list[i].onclick = function(){
+								$(this).addClass("current").siblings().removeClass("current");
+							}
+						}
+					}
+				}
+			});
+
+			layui.use(['element','layer'], function() {
+				var element = layui.element;
+				var layer = layui.layer;
+			});
+
+			// 导航栏跳转
+			function navPage(url) {
+				localStorage.setItem('iframeUrl', url);
+				document.getElementById('iframe').src = url;
+			}
+
+			var iframeUrl = localStorage.getItem('iframeUrl');
+			document.getElementById('iframe').src = iframeUrl  || './pages/home/home.html';
+
+      function resizeIframeToViewport() {
+        var iframe = document.getElementById('iframe');
+        var header = document.getElementById('header');
+        if (!iframe || !header) return;
+        var headerHeight = header.offsetHeight || 0;
+        var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+        var target = Math.max(200, viewportHeight - headerHeight);
+        iframe.style.height = target + 'px';
+      }
+
+			//  窗口变化时候iframe自适应
+			// function changeFrameHeight() {
+				// var header = document.getElementById('header').scrollHeight;
+    //     let isshow = true
+    //     var tabbar = 0
+    //     if(isshow) {
+    //       tabbar = document.getElementById('tabbar').scrollHeight
+    //     }
+				// var ifm = document.getElementById("iframe");
+				// ifm.height = document.documentElement.clientHeight - header - tabbar;
+				// ifm.width = document.documentElement.clientWidth;
+			// }
+
+			// reasize 事件 窗口大小变化后执行的方法
+			window.onresize = function() {
+				resizeIframeToViewport();
+			}
+
+      // 首次进入与每次切换页面时，保证 iframe 高度正确
+      resizeIframeToViewport();
+      document.getElementById('iframe').addEventListener('load', function () {
+        resizeIframeToViewport();
+      });
+		</script>
+	</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="utf-8">
+<title>首页</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="../../layui/css/layui.css">
+<link rel="stylesheet" href="../../xznstatic/css/common.css"/>
+<link rel="stylesheet" href="../../xznstatic/css/style.css"/>
+<script src="../../xznstatic/js/jquery-1.11.3.min.js"></script>
+</head>
+<style>
+  .section {
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    background-color: #f5f5f5;
+  }
+  .section .box {
+    width: 80%;
+    max-width: 1200px;
+  }
+  .section .title {
+    padding: 10px 0;
+    margin: 0 0 16px;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(254, 190, 0, 1);
+    border-radius: 8px;
+    font-size: 18px;
+  }
+  .section .list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .section .list-item {
+    width: 25%;
+    padding: 0 10px 20px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  .section .list-item-body {
+    background: #fff;
+    border: 1px solid #eee;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, .08);
+    padding: 10px;
+  }
+  .section .list-item-body img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+  }
+  .section .name {
+    text-align: center;
+    margin-top: 10px;
+    color: #333;
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>
+<body>
+<div id="app">
+  <div id="content">
+    <div class="section">
+      <div class="box">
+        <div class="title">实验室信息展示</div>
+        <div class="list">
+          <div
+            v-for="(item,index) in shiyanshixinxiList"
+            :key="'lab-'+index"
+            @click="jump('../shiyanshixinxi/detail.html?id='+item.id)"
+            class="list-item"
+          >
+            <div class="list-item-body">
+              <img :src="item.shiyanshitupian ? item.shiyanshitupian.split(',')[0] : ''" alt="" />
+              <div class="name">{{ item.shiyanshibianhao }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="box">
+        <div class="title">实验设备展示</div>
+        <div class="list">
+          <div
+            v-for="(item,index) in shiyanshebeiList"
+            :key="'device-'+index"
+            @click="jump('../shiyanshebei/detail.html?id='+item.id)"
+            class="list-item"
+          >
+            <div class="list-item-body">
+              <img :src="item.tupian ? item.tupian.split(',')[0] : ''" alt="" />
+              <div class="name">{{ item.shebeimingcheng }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../layui/layui.js"></script>
+<script src="../../js/vue.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../modules/config.js"></script>
+<script src="../../js/utils.js"></script>
+<script type="text/javascript">
+  var vue = new Vue({
+    el: '#app',
+    data: {
+      shiyanshixinxiList: [],
+      shiyanshebeiList: []
+    },
+    methods: {
+      jump(url) {
+        jump(url);
+      }
+    }
+  });
+
+  layui.use(['http'], function() {
+    var http = layui.http;
+
+    // 从数据库接口实时读取实验室数据
+    http.request('shiyanshixinxi/list', 'get', {
+      page: 1,
+      limit: 8
+    }, function(res) {
+      vue.shiyanshixinxiList = res.data.list || [];
+    });
+
+    // 从数据库接口实时读取实验设备数据
+    http.request('shiyanshebei/list', 'get', {
+      page: 1,
+      limit: 8
+    }, function(res) {
+      vue.shiyanshebeiList = res.data.list || [];
+    });
+  });
+</script>
+</body>
+</html>
