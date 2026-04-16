@@ -1,0 +1,9 @@
+/* Lab style theme variables */
+$--color-primary: #2b6cb0 !default;
+$--color-success: #2f855a !default;
+$--color-warning: #d69e2e !default;
+$--color-danger: #c53030 !default;
+$--color-info: #4a5568 !default;
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+@import "~element-ui/packages/theme-chalk/src/index";
